@@ -84,12 +84,10 @@ class RepositoryProvider extends ServiceProvider
     protected function registerMakeRepositoryCommand()
     {
         $this->app->singleton('command.repository.make', function ($app) {
-            function ($app)
-            {
-                return new MakeRepositoryCommand($app['RepositoryCreator'], $app['Composer']);
-            }
+            return new MakeRepositoryCommand($app['RepositoryCreator'], $app['Composer']);
         });
     }
+
     /**
      * Get the services provided by the provider.
      *
