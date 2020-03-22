@@ -1,7 +1,8 @@
 <?php namespace repository_namespace;
 
-use Bosnadev\Repositories\Contracts\RepositoryInterface;
-use Bosnadev\Repositories\Eloquent\Repository;
+use Repository\Contracts\RepositoryInterface;
+use Repository\Eloquent\Repository;
+
 
 /**
  * Class repository_class

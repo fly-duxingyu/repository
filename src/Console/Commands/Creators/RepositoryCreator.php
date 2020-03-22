@@ -252,7 +252,7 @@ class RepositoryCreator {
     protected function getStubPath()
     {
         // Stub path.
-        $stub_path = __DIR__ . '/../../../../../../resources/stubs/';
+        $stub_path = __DIR__ . '/../../../../resources/stubs/';
 
         // Return the stub path.
         return $stub_path;
