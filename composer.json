@@ -1,40 +1,40 @@
 {
-    "name": "duxingyu/repository",
-    "description": "laravel repository",
-    "type": "lib",
-    "require": {
-        "php": ">=5.4",
-        "illuminate/support": "^5.2",
-        "illuminate/database": "^5.2",
-        "illuminate/filesystem": "^5.2",
-        "illuminate/console": "^5.2"
+  "name": "duxingyu/repository",
+  "description": "laravel repository",
+  "type": "lib",
+  "require": {
+    "php": ">=5.4",
+    "illuminate/support": "^5.2",
+    "illuminate/database": "^5.2",
+    "illuminate/filesystem": "^5.2",
+    "illuminate/console": "^5.2"
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "duxingyu",
+      "email": "530606930@qq.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Repository\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Repository\\": "tests"
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.0-dev"
     },
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "duxingyu",
-            "email": "530606930@qq.com"
-        }
-    ],
-    "autoload": {
-        "psr-4": {
-            "Repository\\": "src"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Repository\\": "tests"
-        }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.0.0-dev"
-        },
-        "laravel": {
-            "providers": [
-                "Repository\\Providers\\RepositoryProvider"
-            ]
-        }
-    },
-    "minimum-stability": "dev"
+    "laravel": {
+      "providers": [
+        "Repository\\Providers\\RepositoryProvider"
+      ]
+    }
+  },
+  "minimum-stability": "dev"
 }
