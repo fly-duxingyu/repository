@@ -28,7 +28,7 @@ class RepositoryProvider extends ServiceProvider
     public function boot()
     {
         // Config path.
-        $config_path = __DIR__ . '/../../../../config/repositories.php';
+        $config_path = __DIR__ .  '/../../config/repositories.php';
 
         // Publish config.
         $this->publishes(
@@ -51,7 +51,7 @@ class RepositoryProvider extends ServiceProvider
         $this->commands(['command.repository.make']);
 
         //获取配置文件
-        $config_path = __DIR__ . '/../../../../config/repositories.php';
+        $config_path = __DIR__ . '/../../config/repositories.php';
 
         // 合并配置文件
         $this->mergeConfigFrom(
