@@ -6,7 +6,7 @@ namespace Repository\Eloquent;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\App;
+use Illuminate\Container\Container as App;
 use Repository\Contracts\RepositoryInterface;
 
 abstract class Repository implements RepositoryInterface
