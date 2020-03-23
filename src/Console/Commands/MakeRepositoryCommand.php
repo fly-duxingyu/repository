@@ -47,7 +47,7 @@ class MakeRepositoryCommand extends Command
         parent::__construct();
 
         // Set the creator.
-        $this->creator  = $creator;
+        $this->creator = $creator;
 
         // Set composer.
         $this->composer = app()['composer'];
@@ -64,7 +64,7 @@ class MakeRepositoryCommand extends Command
         $arguments = $this->argument();
 
         // Get the options.
-        $options   = $this->option();
+        $options = $this->option();
 
         // Write repository.
         $this->writeRepository($arguments, $options);
@@ -83,11 +83,10 @@ class MakeRepositoryCommand extends Command
         $repository = $arguments['repository'];
 
         // Set model.
-        $model      = $options['model'];
+        $model = str_replace('/', '\\', $options['model'], $count);
 
         // Create the repository.
-        if($this->creator->create($repository, $model))
-        {
+        if ($this->creator->create($repository, $model)) {
             // Information message.
             $this->info("Successfully created the repository class");
         }
