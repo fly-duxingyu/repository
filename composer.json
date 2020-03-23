@@ -4,10 +4,10 @@
   "type": "lib",
   "require": {
     "php": ">=5.4",
-    "illuminate/support": "^5.*|^6.*|^7.*",
-    "illuminate/database": "^5.*|^6.*|^7.*",
-    "illuminate/filesystem": "^5.*|^6.*|^7.*",
-    "illuminate/console": "^5.*|^6.*|^7.*"
+    "illuminate/support": "5.*|6.*|7.*",
+    "illuminate/database": "5.*|6.*|7.*",
+    "illuminate/filesystem": "5.*|6.*|7.*",
+    "illuminate/console": "5.*|6.*|7.*"
   },
   "license": "MIT",
   "authors": [
