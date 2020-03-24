@@ -33,13 +33,13 @@ abstract class Repository implements RepositoryInterface
     /**
      * Specify Model class name
      *
-     * @return mixed
+     * @return Model|string
      */
     abstract function model();
 
     /**
      * @param array $columns
-     * @return mixed
+     * @return Model|mixed
      */
     public function all($columns = array('*')) {
         return $this->model->get($columns);
@@ -48,7 +48,7 @@ abstract class Repository implements RepositoryInterface
     /**
      * @param int $perPage
      * @param array $columns
-     * @return mixed
+     * @return Model|mixed
      */
     public function paginate($perPage = 15, $columns = array('*')) {
         return $this->model->paginate($perPage, $columns);
@@ -56,7 +56,7 @@ abstract class Repository implements RepositoryInterface
 
     /**
      * @param array $data
-     * @return mixed
+     * @return Model|mixed
      */
     public function create(array $data) {
         return $this->model->create($data);
@@ -66,7 +66,7 @@ abstract class Repository implements RepositoryInterface
      * @param array $data
      * @param $id
      * @param string $attribute
-     * @return mixed
+     * @return int|mixed
      */
     public function update(array $data, $id, $attribute="id") {
         return $this->model->where($attribute, '=', $id)->update($data);
@@ -74,16 +74,16 @@ abstract class Repository implements RepositoryInterface
 
     /**
      * @param $id
-     * @return mixed
+     * @return int|mixed
      */
     public function delete($id) {
-        return $this->model->destroy($id);
+        return $this->model()::destroy($id);
     }
 
     /**
      * @param $id
      * @param array $columns
-     * @return mixed
+     * @return Model|mixed
      */
     public function find($id, $columns = array('*')) {
         return $this->model->find($id, $columns);
@@ -93,7 +93,7 @@ abstract class Repository implements RepositoryInterface
      * @param $attribute
      * @param $value
      * @param array $columns
-     * @return mixed
+     * @return Model|mixed
      */
     public function findBy($attribute, $value, $columns = array('*')) {
         return $this->model->where($attribute, '=', $value)->first($columns);
