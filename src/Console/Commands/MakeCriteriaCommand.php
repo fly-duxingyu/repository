@@ -5,11 +5,12 @@ namespace Repository\Console\Commands;
 
 
 
+use Illuminate\Console\Command;
 use Repository\Console\Commands\Creators\CriteriaCreator;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
-class MakeCriteriaCommand
+class MakeCriteriaCommand extends Command
 {
     /**
      * The name and signature of the console command.
