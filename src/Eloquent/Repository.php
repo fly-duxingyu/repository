@@ -11,7 +11,7 @@ use Repository\Contracts\CriteriaInterface;
 use Repository\Contracts\RepositoryInterface;
 use Illuminate\Support\Collection;
 
-abstract class Repository implements RepositoryInterface,CriteriaInterface
+abstract class Repository implements RepositoryInterface, CriteriaInterface
 {
     /**
      * @var App
@@ -32,11 +32,13 @@ abstract class Repository implements RepositoryInterface,CriteriaInterface
      * @var bool
      */
     protected $skipCriteria = false;
+
     /**
      * @param App $app
      * @throws \ErrorException
      */
-    public function __construct(App $app) {
+    public function __construct(App $app)
+    {
         $this->app = $app;
         $this->makeModel();
     }
@@ -52,7 +54,8 @@ abstract class Repository implements RepositoryInterface,CriteriaInterface
      * @param array $columns
      * @return Model|mixed
      */
-    public function all($columns = array('*')) {
+    public function all($columns = array('*'))
+    {
         return $this->model->get($columns);
     }
 
@@ -61,7 +64,8 @@ abstract class Repository implements RepositoryInterface,CriteriaInterface
      * @param array $columns
      * @return Model|mixed
      */
-    public function paginate($perPage = 15, $columns = array('*')) {
+    public function paginate($perPage = 15, $columns = array('*'))
+    {
         return $this->model->paginate($perPage, $columns);
     }
 
@@ -69,7 +73,8 @@ abstract class Repository implements RepositoryInterface,CriteriaInterface
      * @param array $data
      * @return Model|mixed
      */
-    public function create(array $data) {
+    public function create(array $data)
+    {
         return $this->model->create($data);
     }
 
@@ -79,7 +84,8 @@ abstract class Repository implements RepositoryInterface,CriteriaInterface
      * @param string $attribute
      * @return int|mixed
      */
-    public function update(array $data, $id, $attribute="id") {
+    public function update(array $data, $id, $attribute = "id")
+    {
         return $this->model->where($attribute, '=', $id)->update($data);
     }
 
@@ -87,7 +93,8 @@ abstract class Repository implements RepositoryInterface,CriteriaInterface
      * @param $id
      * @return int|mixed
      */
-    public function delete($id) {
+    public function delete($id)
+    {
         return $this->model()::destroy($id);
     }
 
@@ -96,7 +103,8 @@ abstract class Repository implements RepositoryInterface,CriteriaInterface
      * @param array $columns
      * @return Model|mixed
      */
-    public function find($id, $columns = array('*')) {
+    public function find($id, $columns = array('*'))
+    {
         return $this->model->find($id, $columns);
     }
 
@@ -106,7 +114,8 @@ abstract class Repository implements RepositoryInterface,CriteriaInterface
      * @param array $columns
      * @return Model|mixed
      */
-    public function findBy($attribute, $value, $columns = array('*')) {
+    public function findBy($attribute, $value, $columns = array('*'))
+    {
         return $this->model->where($attribute, '=', $value)->first($columns);
     }
 
@@ -114,7 +123,8 @@ abstract class Repository implements RepositoryInterface,CriteriaInterface
      * @return Builder
      * @throws \ErrorException
      */
-    public function makeModel() {
+    public function makeModel()
+    {
         $model = $this->app->make($this->model());
 
         if (!$model instanceof Model)
@@ -146,6 +156,30 @@ abstract class Repository implements RepositoryInterface,CriteriaInterface
     {
         // TODO: Implement findWhere() method.
     }
+
+    /**
+     * @param string $value
+     * @param string $key
+     * @return array
+     */
+    public function lists($value, $key = null)
+    {
+        $this->applyCriteria();
+        $lists = $this->model->lists($value, $key);
+        if (is_array($lists)) {
+            return $lists;
+        }
+        return $lists->all();
+    }
+    /**
+     * @param array $relations
+     * @return $this
+     */
+    public function with(array $relations)
+    {
+        $this->model = $this->model->with($relations);
+        return $this;
+    }
     /**
      * @return $this
      */
@@ -154,6 +188,7 @@ abstract class Repository implements RepositoryInterface,CriteriaInterface
         $this->skipCriteria(false);
         return $this;
     }
+
     /**
      * @param bool $status
      * @return $this
@@ -163,6 +198,7 @@ abstract class Repository implements RepositoryInterface,CriteriaInterface
         $this->skipCriteria = $status;
         return $this;
     }
+
     /**
      * @return mixed
      */
@@ -170,6 +206,7 @@ abstract class Repository implements RepositoryInterface,CriteriaInterface
     {
         return $this->criteria;
     }
+
     /**
      * @param Criteria $criteria
      * @return $this
@@ -179,6 +216,7 @@ abstract class Repository implements RepositoryInterface,CriteriaInterface
         $this->model = $criteria->apply($this->model, $this);
         return $this;
     }
+
     /**
      * @param Criteria $criteria
      * @return $this
