@@ -9,6 +9,7 @@ use Illuminate\Support\Composer;
 use Illuminate\Support\ServiceProvider;
 use Repository\Console\Commands\Creators\CriteriaCreator;
 use Repository\Console\Commands\Creators\RepositoryCreator;
+use Repository\Console\Commands\MakeCriteriaCommand;
 use Repository\Console\Commands\MakeRepositoryCommand;
 
 class RepositoryProvider extends ServiceProvider
@@ -93,7 +94,7 @@ class RepositoryProvider extends ServiceProvider
         });
         //注册CriteriaCreator
         $this->app->singleton('command.Criteria.make', function ($app) {
-            return new CriteriaCreator($app['CriteriaCreator'],$app['Composer']);
+            return new MakeCriteriaCommand($app['CriteriaCreator'],$app['Composer']);
         });
     }
 
