@@ -54,27 +54,4 @@ interface  RepositoryInterface
      */
     public function find($id, $columns = array('*'));
 
-    /**
-     * @param $field
-     * @param $value
-     * @param array $columns
-     * @return mixed
-     */
-    public function findBy($field, $value, $columns = array('*'));
-
-    /**
-     * @param $field
-     * @param $value
-     * @param array $columns
-     * @return mixed
-     */
-    public function findAllBy($field, $value, $columns = array('*'));
-
-    /**
-     * @param $where
-     * @param array $columns
-     * @return mixed
-     */
-    public function findWhere($where, $columns = array('*'));
-
 }

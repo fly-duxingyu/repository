@@ -10,29 +10,15 @@ use Repository\Eloquent\Criteria;
 interface CriteriaInterface
 {
     /**
-     * @param bool $status
+     * @param Criteria $criteria
      * @return mixed
      */
-    public function skipCriteria($status = true);
-
-
-    /**
-     * @return mixed
-     */
-    public function getCriteria();
-
+    public function setCriteria(Criteria $criteria);
 
     /**
      * @param Criteria $criteria
      * @return mixed
      */
-    public function getByCriteria(Criteria $criteria);
-
-    /**
-     * @param Criteria $criteria
-     * @return mixed
-     */
-    public function pushCriteria(Criteria $criteria);
 
     /**
      * @return mixed

@@ -29,11 +29,6 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
     protected $criteria;
 
     /**
-     * @var bool
-     */
-    protected $skipCriteria = false;
-
-    /**
      * @param App $app
      * @throws \ErrorException
      */
@@ -56,6 +51,7 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
      */
     public function all($columns = array('*'))
     {
+        $this->applyCriteria();
         return $this->model->get($columns);
     }
 
@@ -66,6 +62,7 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
      */
     public function paginate($perPage = 15, $columns = array('*'))
     {
+        $this->applyCriteria();
         return $this->model->paginate($perPage, $columns);
     }
 
@@ -86,6 +83,7 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
      */
     public function update(array $data, $id, $attribute = "id")
     {
+        $this->applyCriteria();
         return $this->model->where($attribute, '=', $id)->update($data);
     }
 
@@ -95,6 +93,7 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
      */
     public function delete($id)
     {
+        $this->applyCriteria();
         return $this->model()::destroy($id);
     }
 
@@ -105,18 +104,8 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
      */
     public function find($id, $columns = array('*'))
     {
+        $this->applyCriteria();
         return $this->model->find($id, $columns);
-    }
-
-    /**
-     * @param $attribute
-     * @param $value
-     * @param array $columns
-     * @return Model|mixed
-     */
-    public function findBy($attribute, $value, $columns = array('*'))
-    {
-        return $this->model->where($attribute, '=', $value)->first($columns);
     }
 
     /**
@@ -134,43 +123,17 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
     }
 
     /**
-     * @inheritDoc
+     * @param array $data
+     * @return bool
      */
     public function saveModel(array $data)
     {
-
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function findAllBy($field, $value, $columns = array('*'))
-    {
-        // TODO: Implement findAllBy() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function findWhere($where, $columns = array('*'))
-    {
-        // TODO: Implement findWhere() method.
-    }
-
-    /**
-     * @param string $value
-     * @param string $key
-     * @return array
-     */
-    public function lists($value, $key = null)
-    {
-        $this->applyCriteria();
-        $lists = $this->model->lists($value, $key);
-        if (is_array($lists)) {
-            return $lists;
+        foreach ($data as $k => $v) {
+            $this->model->$k = $v;
         }
-        return $lists->all();
+        return $this->model->save();
     }
+
     /**
      * @param array $relations
      * @return $this
@@ -180,62 +143,14 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
         $this->model = $this->model->with($relations);
         return $this;
     }
-    /**
-     * @return $this
-     */
-    public function resetScope()
-    {
-        $this->skipCriteria(false);
-        return $this;
-    }
-
-    /**
-     * @param bool $status
-     * @return $this
-     */
-    public function skipCriteria($status = true)
-    {
-        $this->skipCriteria = $status;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCriteria()
-    {
-        return $this->criteria;
-    }
 
     /**
      * @param Criteria $criteria
-     * @return $this
+     * @return $this|mixed
      */
-    public function getByCriteria(Criteria $criteria)
+    public function setCriteria(Criteria $criteria)
     {
-        $this->model = $criteria->apply($this->model, $this);
-        return $this;
-    }
-
-    /**
-     * @param Criteria $criteria
-     * @return $this
-     */
-    public function pushCriteria(Criteria $criteria)
-    {
-        if ($this->preventCriteriaOverwriting) {
-            // Find existing criteria
-            $key = $this->criteria->search(function ($item) use ($criteria) {
-                return (is_object($item) && (get_class($item) == get_class($criteria)));
-            });
-
-            // Remove old criteria
-            if (is_int($key)) {
-                $this->criteria->offsetUnset($key);
-            }
-        }
-
-        $this->criteria->push($criteria);
+        $this->criteria = $criteria;
         return $this;
     }
 
@@ -244,14 +159,9 @@ abstract class Repository implements RepositoryInterface, CriteriaInterface
      */
     public function applyCriteria()
     {
-        if ($this->skipCriteria === true)
-            return $this;
-
-        foreach ($this->getCriteria() as $criteria) {
-            if ($criteria instanceof Criteria)
-                $this->model = $criteria->apply($this->model, $this);
+        if ($this->criteria) {
+            $this->model = $this->criteria->apply($this->model, $this);
         }
-
         return $this;
     }
 
