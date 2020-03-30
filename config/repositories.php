@@ -29,5 +29,24 @@ return [
     | The model namespace.
     |
     */
-    'model_namespace' => 'App'
+    'model_namespace' => 'App',
+    /*
+   |--------------------------------------------------------------------------
+   | Criteria namespace
+   |--------------------------------------------------------------------------
+   |
+   | The namespace for the criteria classes.
+   |
+   */
+    'criteria_namespace' => 'App\Repositories\Criteria',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Criteria path
+    |--------------------------------------------------------------------------
+    |
+    | The path to the criteria folder.
+    |
+    */
+    'criteria_path'=> 'app' . DIRECTORY_SEPARATOR . 'Repositories' . DIRECTORY_SEPARATOR . 'Criteria',
 ];

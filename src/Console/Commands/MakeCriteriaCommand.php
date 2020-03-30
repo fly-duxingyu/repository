@@ -62,7 +62,6 @@ class MakeCriteriaCommand extends Command
 
         // Get the options.
         $options   = $this->option();
-
         // Write criteria.
         $this->writeCriteria($arguments, $options);
 
@@ -112,7 +111,7 @@ class MakeCriteriaCommand extends Command
     protected function getOptions()
     {
         return [
-            ['model', null, InputOption::VALUE_OPTIONAL, 'The model name.', null],
+            ['model', 'm', InputOption::VALUE_NONE, 'The model name.', null],
         ];
     }
 }
