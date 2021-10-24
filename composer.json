@@ -18,12 +18,11 @@
   ],
   "autoload": {
     "psr-4": {
-      "Repository\\": "src"
+      "Duxingyu\\Repository\\": "src"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Repository\\": "tests"
     }
   },
   "extra": {
