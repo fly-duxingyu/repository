@@ -1,8 +1,7 @@
 <?php namespace repository_namespace;
 
-use Repository\Contracts\RepositoryInterface;
-use Repository\Eloquent\Repository;
-
+use Duxingyu\Repository\Contracts\RepositoryInterface;
+use Duxingyu\Repository\Eloquent\Repository;
 
 /**
  * Class repository_class

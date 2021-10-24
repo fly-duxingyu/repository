@@ -1,16 +1,14 @@
 <?php
 
 
-namespace Repository\Providers;
+namespace Duxingyu\Repository\Providers;
 
 
+use Duxingyu\Repository\Console\Commands\Creators\RepositoryCreator;
+use Duxingyu\Repository\Console\Commands\MakeRepositoryCommand;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Composer;
 use Illuminate\Support\ServiceProvider;
-use Repository\Console\Commands\Creators\CriteriaCreator;
-use Repository\Console\Commands\Creators\RepositoryCreator;
-use Repository\Console\Commands\MakeCriteriaCommand;
-use Repository\Console\Commands\MakeRepositoryCommand;
 
 class RepositoryProvider extends ServiceProvider
 {
@@ -50,7 +48,7 @@ class RepositoryProvider extends ServiceProvider
         $this->registerBindings();
         $this->registerMakeRepositoryCommand();
         //注册artisan命令
-        $this->commands(['command.repository.make','command.Criteria.make']);
+        $this->commands(['command.repository.make']);
 
         //获取配置文件
         $config_path = __DIR__ . '/../../config/repositories.php';
@@ -78,10 +76,6 @@ class RepositoryProvider extends ServiceProvider
         $this->app->singleton('RepositoryCreator', function ($app) {
             return new RepositoryCreator($app['FileSystem']);
         });
-        //注册CriteriaCreator
-        $this->app->singleton('CriteriaCreator', function ($app) {
-            return new CriteriaCreator($app['FileSystem']);
-        });
     }
 
     /**
@@ -91,10 +85,6 @@ class RepositoryProvider extends ServiceProvider
     {
         $this->app->singleton('command.repository.make', function ($app) {
             return new MakeRepositoryCommand($app['RepositoryCreator'], $app['Composer']);
-        });
-        //注册CriteriaCreator
-        $this->app->singleton('command.Criteria.make', function ($app) {
-            return new MakeCriteriaCommand($app['CriteriaCreator'],$app['Composer']);
         });
     }
 
@@ -107,7 +97,6 @@ class RepositoryProvider extends ServiceProvider
     {
         return [
             'command.repository.make',
-            'command.Criteria.make'
         ];
     }
 }

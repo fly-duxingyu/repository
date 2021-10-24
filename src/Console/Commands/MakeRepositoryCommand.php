@@ -1,10 +1,10 @@
 <?php
 
-namespace Repository\Console\Commands;
+namespace Duxingyu\Repository\Console\Commands;
 
+use Duxingyu\Repository\Console\Commands\Creators\RepositoryCreator;
 use Illuminate\Console\Command;
 use Illuminate\Support\Composer;
-use Repository\Console\Commands\Creators\RepositoryCreator;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
@@ -21,7 +21,6 @@ class MakeRepositoryCommand extends Command
      * @var string
      */
     protected $name = 'make:repository';
-
     /**
      * The console command description.
      *
@@ -62,10 +61,8 @@ class MakeRepositoryCommand extends Command
     {
         // Get the arguments.
         $arguments = $this->argument();
-
         // Get the options.
         $options = $this->option();
-
         // Write repository.
         $this->writeRepository($arguments, $options);
 
@@ -112,7 +109,7 @@ class MakeRepositoryCommand extends Command
     protected function getOptions()
     {
         return [
-            ['model', null, InputOption::VALUE_OPTIONAL, 'The model name.', null],
+            ['model', '-m', InputOption::VALUE_OPTIONAL, 'The model name.', null],
         ];
     }
 }

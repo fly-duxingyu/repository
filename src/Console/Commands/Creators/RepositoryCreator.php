@@ -1,17 +1,19 @@
 <?php
 
-namespace Repository\Console\Commands\Creators;
+namespace Duxingyu\Repository\Console\Commands\Creators;
 
+use Doctrine\Inflector\Inflector;
+use ErrorException;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Config;
-use Doctrine\Common\Inflector\Inflector;
 
 /**
  * Class RepositoryCreator
  *
  * @package Bosnadev\Repositories\Console\Commands\Creators
  */
-class RepositoryCreator {
+class RepositoryCreator
+{
 
     /**
      * @var Filesystem
@@ -96,8 +98,7 @@ class RepositoryCreator {
         $directory = $this->getDirectory();
 
         // Check if the directory exists.
-        if(!$this->files->isDirectory($directory))
-        {
+        if (!$this->files->isDirectory($directory)) {
             // Create the directory if not.
             $this->files->makeDirectory($directory, 0755, true);
         }
@@ -128,8 +129,7 @@ class RepositoryCreator {
         $repository_name = $this->getRepository();
 
         // Check if the repository ends with 'Repository'.
-        if(!strpos($repository_name, 'Repository') !== false)
-        {
+        if (!strpos($repository_name, 'Repository') !== false) {
             // Append 'Repository' if not.
             $repository_name .= 'Repository';
         }
@@ -142,23 +142,20 @@ class RepositoryCreator {
      * Get the model name.
      *
      * @return string
+     * @throws ErrorException
      */
     protected function getModelName()
     {
         // Set model.
-        $model      = $this->getModel();
+        $model = $this->getModel();
 
         // Check if the model isset.
-        if(isset($model) && !empty($model))
-        {
+        if (isset($model) && !empty($model)) {
             // Set the model name from the model option.
             $model_name = $model;
-        }
-
-        else
-        {
+        } else {
             // Set the model name by the stripped repository name.
-            $model_name = Inflector::singularize($this->stripRepositoryName());
+            throw new ErrorException("Specify model by passing the --model argument");
         }
 
         // Return the model name.
@@ -176,7 +173,7 @@ class RepositoryCreator {
         $repository = strtolower($this->getRepository());
 
         // Remove repository from the string.
-        $stripped   = str_replace("repository", "", $repository);
+        $stripped = str_replace("repository", "", $repository);
 
         // Uppercase repository name.
         $result = ucfirst($stripped);
@@ -196,20 +193,20 @@ class RepositoryCreator {
         $repository_namespace = Config::get('repositories.repository_namespace');
 
         // Repository class.
-        $repository_class     = $this->getRepositoryName();
+        $repository_class = $this->getRepositoryName();
 
         // Model path.
-        $model_path           = Config::get('repositories.model_namespace');
+        $model_path = Config::get('repositories.model_namespace');
 
         // Model name.
-        $model_name           = $this->getModelName();
+        $model_name = $this->getModelName();
 
         // Populate data.
         $populate_data = [
             'repository_namespace' => $repository_namespace,
-            'repository_class'     => $repository_class,
-            'model_path'           => $model_path,
-            'model_name'           => $model_name
+            'repository_class' => $repository_class,
+            'model_path' => $model_path,
+            'model_name' => $model_name
         ];
 
         // Return populate data.
@@ -272,8 +269,7 @@ class RepositoryCreator {
         $stub = $this->getStub();
 
         // Loop through the populate data.
-        foreach ($populate_data as $key => $value)
-        {
+        foreach ($populate_data as $key => $value) {
             // Populate the stub.
             $stub = str_replace($key, $value, $stub);
         }
