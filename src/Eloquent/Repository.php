@@ -4,15 +4,15 @@ namespace Duxingyu\Repository\Eloquent;
 
 use Duxingyu\Repository\Contracts\RepositoryInterface;
 use ErrorException;
+use Illuminate\Container\Container;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Container\Container as App;
 
 abstract class Repository implements RepositoryInterface
 {
     /**
-     * @var App
+     * @var Container
      */
     private $app;
 
@@ -22,12 +22,11 @@ abstract class Repository implements RepositoryInterface
     protected $model;
 
     /**
-     * @param App $app
      * @throws ErrorException|BindingResolutionException
      */
-    public function __construct(App $app)
+    public function __construct()
     {
-        $this->app = $app;
+        $this->app = new Container();
         $this->makeModel();
     }
 
@@ -50,7 +49,7 @@ abstract class Repository implements RepositoryInterface
         if (!$model instanceof Model)
             throw new ErrorException("Class {$this->model()} must be an instance of Illuminate\\Database\\Eloquent\\Model");
 
-        return $this->model = $model->newQuery();
+        return $this->model = $model;
     }
 
 }
