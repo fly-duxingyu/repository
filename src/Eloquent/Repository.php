@@ -19,7 +19,7 @@ abstract class Repository implements RepositoryInterface
     /**
      * @var  Model
      */
-    protected $model;
+    public $model;
 
     /**
      * @throws ErrorException|BindingResolutionException
