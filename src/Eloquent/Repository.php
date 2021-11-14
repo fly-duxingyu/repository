@@ -17,9 +17,12 @@ abstract class Repository implements RepositoryInterface
     private $app;
 
     /**
-     * @var  Model
+     * @var  Model | \Illuminate\Database\Eloquent\Builder | \Illuminate\Database\Eloquent\Collection | \Illuminate\Database\Query\Builder
      */
     public $model;
+
+    public static $table_name;
+
 
     /**
      * @throws ErrorException|BindingResolutionException
@@ -48,8 +51,7 @@ abstract class Repository implements RepositoryInterface
 
         if (!$model instanceof Model)
             throw new ErrorException("Class {$this->model()} must be an instance of Illuminate\\Database\\Eloquent\\Model");
-
+        self::$table_name = $model->getTable();
         return $this->model = $model;
     }
-
 }
